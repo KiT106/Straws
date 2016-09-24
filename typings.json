@@ -1,4 +1,10 @@
 {
   "name": "bracket",
-  "dependencies": {}
+  "dependencies": {},
+  "globalDependencies": {
+    "angular": "registry:dt/angular#1.5.0+20160922195358",
+    "angular-route": "registry:dt/angular-route#1.3.0+20160317120654",
+    "bootstrap": "registry:dt/bootstrap#3.3.5+20160619023404",
+    "jquery": "registry:dt/jquery#1.10.0+20160908203239"
+  }
 }
