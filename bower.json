@@ -1,0 +1,19 @@
+{
+  "name": "bracket",
+  "description": "Bracket in Angular",
+  "authors": [
+    "Đặng Minh Dũng <dungdm93@live.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "bracket",
+    "angular"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

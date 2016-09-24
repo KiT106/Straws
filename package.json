@@ -1,0 +1,22 @@
+{
+  "name": "bracket",
+  "version": "1.0.0",
+  "description": "Bracket in Angular",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bracket",
+    "angular"
+  ],
+  "author": "Đặng Minh Dũng <dungdm93@live.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "tslint": "^3.15.1",
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0"
+  }
+}
