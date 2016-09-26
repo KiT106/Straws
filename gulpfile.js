@@ -61,3 +61,9 @@ gulp.task("compile:styles", function () {
 gulp.task("watch:styles", ["compile:styles"], function () {
     gulp.watch(config.source.css, ["compile:styles"]);
 });
+
+gulp.task("clean:styles", function () {
+    var del = require("del");
+
+    del(config.distribution.styles);
+});
