@@ -4,11 +4,14 @@ var distribution = "./dist";
 var report = "./report";
 
 var config = {
+    root: root,
     source: {
+        dir: source,
         ts: `${source}/**/*.ts`,
         index: `${source}/index.html`
     },
     distribution: {
+        dir: distribution,
         js: `${distribution}/**/*.js`,
         css: `${distribution}/**/*.css`,
         index: `${distribution}/index.html`,
