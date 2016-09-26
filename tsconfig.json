@@ -12,6 +12,8 @@
   "exclude": [
     "node_modules",
     "bower_components",
-    "dist"
+    "build",
+    "dist",
+    "out"
   ]
 }

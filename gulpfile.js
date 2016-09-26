@@ -11,17 +11,17 @@ gulp.task("lint:scripts", function () {
 });
 
 gulp.task("compile:scripts", function () {
-    var project = $.typescript.createProject("tsconfig.json");
+    var project = $.typescript.createProject("tsconfig.json", config.typescript);
     return project
-        .src(config.source.ts)
+        .src(config.source.ts) // TODO(dungdm93): still load *.ts file not in src folder
 
         .pipe($.cached("compile:scripts"))
         .pipe($.if(args.verbose, $.print()))
         .pipe($.plumber())
 
-        .pipe($.sourcemaps.init())
+        .pipe($.sourcemaps.init(config.sourcemaps.init))
         .pipe(project())
-        .pipe($.sourcemaps.write(config.root))
+        .pipe($.sourcemaps.write(".", config.sourcemaps.write))
         .pipe(gulp.dest(config.distribution.dir));
 });
 

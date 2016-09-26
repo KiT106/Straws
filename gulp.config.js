@@ -17,9 +17,8 @@ var config = {
         index: `${distribution}/index.html`,
     },
 
+    // TSLint options https://www.npmjs.com/package/gulp-tslint#all-default-tslint-options
     tslint: {
-        // TSLint options https://www.npmjs.com/package/gulp-tslint#all-default-tslint-options
-
         // The default formatter is "prose". The available formatters include:
         // * "json" prints stringified JSON to console.log.
         // * "prose" prints short human-readable failures to console.log.
@@ -34,6 +33,21 @@ var config = {
         report: {
             summarizeFailureOutput: true
         }
+    },
+
+    // override compilerOptions in tsconfig.json
+    // List supported & *unsupported* options: https://www.npmjs.com/package/gulp-typescript#options
+    typescript: {},
+
+    // grulp-sourcemaps options
+    sourcemaps: {
+        // Options in sourcemaps.init() statement. See https://github.com/floridoo/gulp-sourcemaps#init-options
+        init: undefined,
+
+        // Options in sourcemaps.init() statement. https://github.com/floridoo/gulp-sourcemaps#write-options
+        write: {
+            includeContent: false
+        },
     }
 }
 module.exports = config;
