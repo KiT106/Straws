@@ -15,6 +15,16 @@ var config = {
         js: `${distribution}/**/*.js`,
         css: `${distribution}/**/*.css`,
         index: `${distribution}/index.html`,
+
+        scripts: [
+            `${distribution}/**/*.js`,
+            `${distribution}/**/*.d.ts`,
+            `${distribution}/**/*.js.map`
+        ],
+        styles: [
+            `${distribution}/**/*.css`,
+            `${distribution}/**/*.css.map`
+        ]
     },
 
     // TSLint options https://www.npmjs.com/package/gulp-tslint#all-default-tslint-options

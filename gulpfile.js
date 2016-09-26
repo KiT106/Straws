@@ -31,3 +31,9 @@ gulp.task("watch:scripts", ["compile:scripts"], function () {
     // deleted file: remove compiled file and reload.
     gulp.watch(config.source.ts, ["compile:scripts"]);
 });
+
+gulp.task("clean:scripts", function () {
+    var del = require("del");
+
+    del(config.distribution.scripts);
+});
