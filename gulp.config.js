@@ -67,6 +67,8 @@ var config = {
         reporters: [
             { formatter: 'string', console: true }
         ]
-    }
+    },
+
+    autoprefixer: { browsers: ['last 2 version', '> 5%'] }
 }
 module.exports = config;

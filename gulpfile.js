@@ -43,3 +43,17 @@ gulp.task("lint:styles", function () {
         .src(config.source.css)
         .pipe($.stylelint(config.stylelint))
 });
+
+gulp.task("compile:styles", function () {
+    return gulp
+        .src(config.source.css)
+
+        .pipe($.cached("compile:styles"))
+        .pipe($.if(args.verbose, $.print()))
+        .pipe($.plumber())
+
+        .pipe($.sourcemaps.init(config.sourcemaps.init))
+        .pipe($.autoprefixer())
+        .pipe($.sourcemaps.write(".", config.sourcemaps.write))
+        .pipe(gulp.dest(config.distribution.dir));
+});
