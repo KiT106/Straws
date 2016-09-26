@@ -21,3 +21,13 @@ body .container {
   padding-left: 1.5%;
   padding-right: 1.5%;
 }
+
+form * {
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+input,
+select {
+  padding: 4px !important;
+  display: inline-block !important;
+}

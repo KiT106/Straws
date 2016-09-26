@@ -57,3 +57,7 @@ gulp.task("compile:styles", function () {
         .pipe($.sourcemaps.write(".", config.sourcemaps.write))
         .pipe(gulp.dest(config.distribution.dir));
 });
+
+gulp.task("watch:styles", ["compile:styles"], function () {
+    gulp.watch(config.source.css, ["compile:styles"]);
+});
