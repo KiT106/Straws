@@ -1,0 +1,79 @@
+* {
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn,
+.badge,
+.modal,
+.modal-dialog,
+.modal-content,
+input,
+select {
+  border-radius: 0 !important;
+}
+
+input,
+select {
+  padding: 4px !important;
+  display: inline-block !important;
+}
+
+.navbar * {
+  background-image: none !important;
+  text-shadow: none !important;
+}
+
+form * {
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+input,
+textarea {
+  background-image: none !important;
+  border: 1px solid #ccc !important;
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+select {
+  font-size: 13px !important;
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0 !important;
+  margin-right: 5px !important;
+  line-height: 23px !important;
+  border: 0 !important;
+}
+
+.btn {
+  background-image: none !important;
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  font-size: 13px !important;
+}
+
+.btn.btn-form-md {
+  margin: 0 0.5em 0.2em;
+  width: 9em;
+}
+
+.btn.btn-mini {
+  font-size: 11px !important;
+}
+
+body {
+  font-size: 13px;
+  line-height: 23px;
+  color: #666;
+  background: #111;
+  padding-top: 45px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body .container {
+  width: 97%;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
+}

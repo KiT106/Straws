@@ -37,3 +37,9 @@ gulp.task("clean:scripts", function () {
 
     del(config.distribution.scripts);
 });
+
+gulp.task("lint:styles", function () {
+    return gulp
+        .src(config.source.css)
+        .pipe($.stylelint(config.stylelint))
+});

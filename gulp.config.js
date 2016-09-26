@@ -8,6 +8,7 @@ var config = {
     source: {
         dir: source,
         ts: `${source}/**/*.ts`,
+        css: `${source}/**/*.css`,
         index: `${source}/index.html`
     },
     distribution: {
@@ -27,7 +28,7 @@ var config = {
         ]
     },
 
-    // TSLint options https://www.npmjs.com/package/gulp-tslint#all-default-tslint-options
+    // TSLint options https://github.com/panuhorsmalahti/gulp-tslint#all-default-tslint-options
     tslint: {
         // The default formatter is "prose". The available formatters include:
         // * "json" prints stringified JSON to console.log.
@@ -39,14 +40,14 @@ var config = {
         // * "pmd" for the PMD source code analyzer
         formatter: "verbose",
 
-        // TSLint report options: https://www.npmjs.com/package/gulp-tslint#all-default-report-options
+        // TSLint report options: https://github.com/panuhorsmalahti/gulp-tslint#all-default-report-options
         report: {
             summarizeFailureOutput: true
         }
     },
 
     // override compilerOptions in tsconfig.json
-    // List supported & *unsupported* options: https://www.npmjs.com/package/gulp-typescript#options
+    // List supported & *unsupported* options: https://github.com/ivogabe/gulp-typescript#options
     typescript: {},
 
     // grulp-sourcemaps options
@@ -57,7 +58,15 @@ var config = {
         // Options in sourcemaps.init() statement. https://github.com/floridoo/gulp-sourcemaps#write-options
         write: {
             includeContent: false
-        },
+        }
+    },
+
+    // Stylelint options: https://github.com/olegskl/gulp-stylelint#options
+    stylelint: {
+        failAfterError: false,
+        reporters: [
+            { formatter: 'string', console: true }
+        ]
     }
 }
 module.exports = config;
