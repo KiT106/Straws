@@ -9,7 +9,9 @@ var config = {
         dir: source,
         ts: `${source}/**/*.ts`,
         css: `${source}/**/*.css`,
-        index: `${source}/index.html`
+        index: `${source}/index.html`,
+        font: `${source}/assets/fonts/**`,
+        image: `${source}/assets/images/**`
     },
     distribution: {
         dir: distribution,
@@ -25,7 +27,9 @@ var config = {
         styles: [
             `${distribution}/**/*.css`,
             `${distribution}/**/*.css.map`
-        ]
+        ],
+        font: `${distribution}/assets/fonts/`,
+        image: `${distribution}/assets/images/`
     },
 
     // TSLint options https://github.com/panuhorsmalahti/gulp-tslint#all-default-tslint-options
@@ -69,6 +73,10 @@ var config = {
         ]
     },
 
-    autoprefixer: { browsers: ['last 2 version', '> 5%'] }
+    autoprefixer: { browsers: ['last 2 version', '> 5%'] },
+
+    imagemin: {
+        optimizationLevel: 4
+    }
 }
 module.exports = config;

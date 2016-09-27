@@ -67,3 +67,10 @@ gulp.task("clean:styles", function () {
 
     del(config.distribution.styles);
 });
+
+gulp.task("assets:images", function () {
+    return gulp
+        .src(config.source.image)
+        .pipe($.imagemin(config.imagemin))
+        .pipe(gulp.dest(config.distribution.image));
+})
