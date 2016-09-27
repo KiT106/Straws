@@ -16,7 +16,7 @@ gulp.task("compile:scripts", function () {
     return project
         .src(config.source.ts) // TODO(dungdm93): still load *.ts file not in src folder
 
-        .pipe($.cached("compile:scripts"))
+        // .pipe($.cached("compile:scripts")) // TODO(dungdm93): recompile - symbol not found
         .pipe($.if(args.verbose, $.print()))
         .pipe($.plumber())
 

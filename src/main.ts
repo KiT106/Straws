@@ -1,9 +1,5 @@
-/**
- * Animal
- */
-class Animal {
-    public name: string;
-    constructor(name: string) {
-        this.name = name;
+namespace animal {
+    export abstract class Animal implements angular.IController {
+
     }
 }
