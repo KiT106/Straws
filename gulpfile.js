@@ -1,3 +1,4 @@
+var del = require("del");
 var gulp = require("gulp");
 var args = require("yargs").argv;
 var config = require("./gulp.config");
@@ -33,8 +34,6 @@ gulp.task("watch:scripts", ["compile:scripts"], function () {
 });
 
 gulp.task("clean:scripts", function () {
-    var del = require("del");
-
     del(config.distribution.scripts);
 });
 
@@ -63,8 +62,6 @@ gulp.task("watch:styles", ["compile:styles"], function () {
 });
 
 gulp.task("clean:styles", function () {
-    var del = require("del");
-
     del(config.distribution.styles);
 });
 
@@ -76,8 +73,6 @@ gulp.task("assets:images", function () {
 })
 
 gulp.task("clean:images", function () {
-    var del = require("del");
-
     del(config.distribution.images);
 });
 
@@ -88,7 +83,15 @@ gulp.task("assets:fonts", function () {
 })
 
 gulp.task("clean:fonts", function () {
-    var del = require("del");
-
     del(config.distribution.fonts);
 });
+
+gulp.task("clean:dist", function () {
+    del(config.distribution.dir);
+});
+
+gulp.task("clean:report", function () {
+    del(config.report.dir);
+});
+
+gulp.task("clean", ["clean:dist", "clean:report"]);

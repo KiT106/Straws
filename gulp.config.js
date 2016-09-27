@@ -31,6 +31,9 @@ var config = {
         fonts: `${distribution}/assets/fonts`,
         images: `${distribution}/assets/images`
     },
+    report: {
+        dir: report
+    },
 
     // TSLint options https://github.com/panuhorsmalahti/gulp-tslint#all-default-tslint-options
     tslint: {
