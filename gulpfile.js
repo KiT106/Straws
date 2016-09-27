@@ -80,3 +80,15 @@ gulp.task("clean:images", function () {
 
     del(config.distribution.images);
 });
+
+gulp.task("assets:fonts", function () {
+    return gulp
+        .src(config.source.font)
+        .pipe(gulp.dest(config.distribution.fonts));
+})
+
+gulp.task("clean:fonts", function () {
+    var del = require("del");
+
+    del(config.distribution.fonts);
+});
