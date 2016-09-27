@@ -72,5 +72,11 @@ gulp.task("assets:images", function () {
     return gulp
         .src(config.source.image)
         .pipe($.imagemin(config.imagemin))
-        .pipe(gulp.dest(config.distribution.image));
+        .pipe(gulp.dest(config.distribution.images));
 })
+
+gulp.task("clean:images", function () {
+    var del = require("del");
+
+    del(config.distribution.images);
+});

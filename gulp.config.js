@@ -28,8 +28,8 @@ var config = {
             `${distribution}/**/*.css`,
             `${distribution}/**/*.css.map`
         ],
-        font: `${distribution}/assets/fonts/`,
-        image: `${distribution}/assets/images/`
+        fonts: `${distribution}/assets/fonts`,
+        images: `${distribution}/assets/images`
     },
 
     // TSLint options https://github.com/panuhorsmalahti/gulp-tslint#all-default-tslint-options
