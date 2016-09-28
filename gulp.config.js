@@ -9,6 +9,7 @@ var config = {
         dir: source,
         ts: `${source}/**/*.ts`,
         css: `${source}/**/*.css`,
+        html: `${source}/**/*.html`,
         index: `${source}/index.html`,
         font: `${source}/assets/fonts/**`,
         image: `${source}/assets/images/**`
@@ -17,6 +18,7 @@ var config = {
         dir: distribution,
         js: `${distribution}/**/*.js`,
         css: `${distribution}/**/*.css`,
+        html: `${distribution}/**/*.html`,
         index: `${distribution}/index.html`,
 
         scripts: [

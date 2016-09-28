@@ -65,6 +65,31 @@ gulp.task("clean:styles", function () {
     del(config.distribution.styles);
 });
 
+gulp.task("lint:html", function () {
+    return gulp
+        .src(config.source.html)
+        .pipe($.htmllint());
+});
+
+gulp.task("compile:html", function () {
+    return gulp
+        .src(config.source.html)
+
+        .pipe($.cached("compile:html"))
+        .pipe($.if(args.verbose, $.print()))
+        .pipe($.plumber())
+
+        .pipe(gulp.dest(config.distribution.dir));
+});
+
+gulp.task("watch:html", ["compile:html"], function () {
+    gulp.watch(config.source.html, ["compile:html"]);
+});
+
+gulp.task("clean:html", function () {
+    del(config.distribution.html);
+});
+
 gulp.task("assets:images", function () {
     return gulp
         .src(config.source.image)
