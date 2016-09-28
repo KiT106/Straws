@@ -7,11 +7,12 @@ var $ = require("gulp-load-plugins")({ lazy: true });
 gulp.task("lint:scripts", function () {
     return gulp
         .src(config.source.ts)
+        .pipe($.cached("lint:scripts"))
         .pipe($.tslint(config.tslint))
         .pipe($.tslint.report(config.tslint.report)); // TODO(dungdm93): apply stylish report
 });
 
-gulp.task("compile:scripts", function () {
+gulp.task("compile:scripts", ["lint:scripts"], function () {
     var project = $.typescript.createProject("tsconfig.json", config.typescript);
     return project
         .src(config.source.ts) // TODO(dungdm93): still load *.ts file not in src folder
@@ -40,10 +41,11 @@ gulp.task("clean:scripts", function () {
 gulp.task("lint:styles", function () {
     return gulp
         .src(config.source.css)
+        .pipe($.cached("lint:styles"))
         .pipe($.stylelint(config.stylelint))
 });
 
-gulp.task("compile:styles", function () {
+gulp.task("compile:styles", ["lint:styles"], function () {
     return gulp
         .src(config.source.css)
 
@@ -68,10 +70,11 @@ gulp.task("clean:styles", function () {
 gulp.task("lint:html", function () {
     return gulp
         .src(config.source.html)
-        .pipe($.htmllint());
+        .pipe($.cached("lint:html"))
+        .pipe($.htmllint(config.htmllint)); // TODO(dungdm93): htmllint dont't call callback when error
 });
 
-gulp.task("compile:html", function () {
+gulp.task("compile:html", ["lint:html"], function () {
     return gulp
         .src(config.source.html)
 

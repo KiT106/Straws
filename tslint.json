@@ -4,6 +4,7 @@
   // Any rules specified here will override those from the base config we are extending
   "rules": {
     "no-console": [false],
+    "no-namespace": false,
     "no-unsafe-finally": true
   },
   // A list of relative or absolute paths to directories that contain custom rules.

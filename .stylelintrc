@@ -1,5 +1,6 @@
 {
   # See https://github.com/stylelint/stylelint-config-standard/blob/master/index.js
   "extends": "stylelint-config-standard",
-  "rules": {}
+  "rules": {},
+  "ignoreFiles": "./dist/**"
 }

@@ -72,13 +72,19 @@ var config = {
 
     // Stylelint options: https://github.com/olegskl/gulp-stylelint#options
     stylelint: {
-        failAfterError: false,
+        failAfterError: true,
+        reportOutputDir: `${report}/lint`,
         reporters: [
             { formatter: 'string', console: true }
         ]
     },
 
     autoprefixer: { browsers: ['last 2 version', '> 5%'] },
+
+    htmllint: {
+        config: ".htmllintrc",
+        failOnError: true
+    },
 
     imagemin: {
         optimizationLevel: 4
