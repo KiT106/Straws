@@ -123,3 +123,14 @@ gulp.task("clean:report", function () {
 });
 
 gulp.task("clean", ["clean:dist", "clean:report"]);
+
+gulp.task("inject", function () {
+    var wiredep = require('wiredep').stream;
+
+    return gulp
+        .src(config.source.index)
+        .pipe(wiredep(config.wiredep))
+        .pipe($.inject(gulp.src(config.distribution.js)))
+        .pipe($.inject(gulp.src(config.distribution.css)))
+        .pipe(gulp.dest(config.distribution.dir));
+})

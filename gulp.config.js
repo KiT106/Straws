@@ -88,6 +88,23 @@ var config = {
 
     imagemin: {
         optimizationLevel: 4
+    },
+
+    wiredep: {
+        ignorePath: '..',
+        overrides: {
+            'bootstrap': {
+                'main': [
+                    'dist/css/bootstrap.css',
+                    'dist/js/bootstrap.js'
+                ]
+            },
+            'font-awesome': {
+                'main': [
+                    'css/font-awesome.css'
+                ]
+            }
+        }
     }
 }
 module.exports = config;
