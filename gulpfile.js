@@ -116,7 +116,7 @@ gulp.task("clean", gulp.parallel("clean:dist", "clean:report"));
 gulp.task("inject", gulp.series(
     gulp.parallel("compile:scripts", "compile:styles", "compile:markup"),
     () => {
-        var wiredep = require('wiredep').stream;
+        var wiredep = require("wiredep").stream;
 
         return gulp
             .src(config.source.index)
@@ -126,3 +126,20 @@ gulp.task("inject", gulp.series(
             .pipe(gulp.dest(config.distribution.dir));
     })
 );
+
+gulp.task("build", gulp.series(
+    "clean",
+    gulp.parallel("inject", "assets:images", "assets:fonts"))
+);
+
+gulp.task("serve", gulp.series(
+    "build",
+    () => {
+        var log = console.log.bind(console);
+
+        gulp.watch(config.source.ts)
+            .on("add", path => log(`File ${path} has been added`))
+            .on("change", path => log(`File ${path} has been changed`))
+            .on("unlink", path => log(`File ${path} has been removed`));
+    }
+));
