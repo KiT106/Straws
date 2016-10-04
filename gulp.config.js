@@ -36,6 +36,10 @@ var config = {
     report: {
         dir: report
     },
+    packages: [
+        // `${root}/bower.json`, // Bower version is deprecated
+        `${root}/package.json`
+    ],
 
     // TSLint options https://github.com/panuhorsmalahti/gulp-tslint#all-default-tslint-options
     tslint: {

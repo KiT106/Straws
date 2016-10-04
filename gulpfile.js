@@ -143,3 +143,22 @@ gulp.task("serve", gulp.series(
             .on("unlink", path => log(`File ${path} has been removed`));
     }
 ));
+
+/****************** Utils ******************/
+gulp.task("bump", function () {
+    var options = {};
+    var prompt = $.prompt.prompt({
+        type: "list",
+        name: "bump",
+        message: "What type of bump would you like to do?",
+        choices: ["patch", "minor", "major"]
+    }, function (res) {
+        options.type = res.bump;
+    });
+
+    return gulp
+        .src(config.packages)
+        .pipe(prompt)
+        .pipe($.bump(options))
+        .pipe(gulp.dest(config.root));
+});
