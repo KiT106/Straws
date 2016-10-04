@@ -115,16 +115,7 @@ gulp.task("clean", gulp.parallel("clean:dist", "clean:report"));
 /****************** Build ******************/
 gulp.task("inject", gulp.series(
     gulp.parallel("compile:scripts", "compile:styles", "compile:markup"),
-    () => {
-        var wiredep = require("wiredep").stream;
-
-        return gulp
-            .src(config.source.index)
-            .pipe(wiredep(config.wiredep))
-            .pipe($.inject(gulp.src(config.distribution.js)))
-            .pipe($.inject(gulp.src(config.distribution.css)))
-            .pipe(gulp.dest(config.distribution.dir));
-    })
+    inject)
 );
 
 gulp.task("build", gulp.series(
@@ -134,15 +125,8 @@ gulp.task("build", gulp.series(
 
 gulp.task("serve", gulp.series(
     "build",
-    () => {
-        var log = console.log.bind(console);
-
-        gulp.watch(config.source.ts)
-            .on("add", path => log(`File ${path} has been added`))
-            .on("change", path => log(`File ${path} has been changed`))
-            .on("unlink", path => log(`File ${path} has been removed`));
-    }
-));
+    watch)
+);
 
 /****************** Utils ******************/
 gulp.task("bump", function () {
@@ -162,3 +146,46 @@ gulp.task("bump", function () {
         .pipe($.bump(options))
         .pipe(gulp.dest(config.root));
 });
+
+function inject() {
+    var wiredep = require("wiredep").stream;
+
+    return gulp
+        .src(config.source.index)
+        .pipe(wiredep(config.wiredep))
+        .pipe($.inject(gulp.src(config.distribution.js)))
+        .pipe($.inject(gulp.src(config.distribution.css)))
+        .pipe(gulp.dest(config.distribution.dir));
+};
+inject.description = "Wiring up the js, css and bower dependencies into the html";
+
+function watch() {
+    var log = console.log.bind(console);
+
+    gulp.watch(config.source.ts)
+        .on("add", gulp.series("clean:scripts", "compile:scripts", inject))
+        .on("change", gulp.series("compile:scripts"))
+        .on("unlink", gulp.series("clean:scripts", "compile:scripts", inject));
+
+    gulp.watch(config.source.css)
+        .on("add", gulp.series("clean:styles", "compile:styles", inject))
+        .on("change", gulp.series("compile:styles"))
+        .on("unlink", gulp.series("clean:styles", "compile:styles", inject));
+
+    gulp.watch([config.source.html, not(config.source.index)])
+        .on("all", gulp.series("compile:markup"));
+
+    gulp.watch(config.source.index)
+        .on("change", gulp.series("compile:markup", inject));
+}
+watch.description = "watches the files, builds, and restarts browser-sync";
+
+// Negative the pattern
+function not(globs) {
+    if (Array.isArray(globs)) {
+        return globs.map(not);
+    }
+    if (globs.startsWith("!")) return globs.substring(1);
+    if (globs.startsWith("./")) return "!" + globs.substring(2);
+    return "!" + globs;
+}
