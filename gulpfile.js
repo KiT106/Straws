@@ -4,7 +4,8 @@ var args = require("yargs").argv;
 var config = require("./gulp.config");
 var $ = require("gulp-load-plugins")({ lazy: true });
 
-gulp.task("lint:scripts", function () {
+/****************** Lint ******************/
+gulp.task("lint:scripts", () => {
     return gulp
         .src(config.source.ts)
         .pipe($.cached("lint:scripts"))
@@ -12,7 +13,22 @@ gulp.task("lint:scripts", function () {
         .pipe($.tslint.report(config.tslint.report)); // TODO(dungdm93): apply stylish report
 });
 
-gulp.task("compile:scripts", ["lint:scripts"], function () {
+gulp.task("lint:styles", () => {
+    return gulp
+        .src(config.source.css)
+        .pipe($.cached("lint:styles"))
+        .pipe($.stylelint(config.stylelint))
+});
+
+gulp.task("lint:markup", () => {
+    return gulp
+        .src(config.source.html)
+        .pipe($.cached("lint:markup"))
+        .pipe($.htmllint(config.htmllint)); // TODO(dungdm93): htmllint dont't call callback when error
+});
+
+/****************** Compile & Assets ******************/
+gulp.task("compile:scripts", gulp.series("lint:scripts", () => {
     var project = $.typescript.createProject("tsconfig.json", config.typescript);
     return project
         .src(config.source.ts) // TODO(dungdm93): still load *.ts file not in src folder
@@ -25,27 +41,9 @@ gulp.task("compile:scripts", ["lint:scripts"], function () {
         .pipe(project())
         .pipe($.sourcemaps.write(".", config.sourcemaps.write))
         .pipe(gulp.dest(config.distribution.dir));
-});
+}));
 
-gulp.task("watch:scripts", ["compile:scripts"], function () {
-    // TODO(dungdm93): gulp.watch not triggered for added or deleted files
-    // added file: compile and inject (reload)
-    // deleted file: remove compiled file and reload.
-    gulp.watch(config.source.ts, ["compile:scripts"]);
-});
-
-gulp.task("clean:scripts", function () {
-    del(config.distribution.scripts);
-});
-
-gulp.task("lint:styles", function () {
-    return gulp
-        .src(config.source.css)
-        .pipe($.cached("lint:styles"))
-        .pipe($.stylelint(config.stylelint))
-});
-
-gulp.task("compile:styles", ["lint:styles"], function () {
+gulp.task("compile:styles", gulp.series("lint:styles", () => {
     return gulp
         .src(config.source.css)
 
@@ -57,24 +55,9 @@ gulp.task("compile:styles", ["lint:styles"], function () {
         .pipe($.autoprefixer())
         .pipe($.sourcemaps.write(".", config.sourcemaps.write))
         .pipe(gulp.dest(config.distribution.dir));
-});
+}));
 
-gulp.task("watch:styles", ["compile:styles"], function () {
-    gulp.watch(config.source.css, ["compile:styles"]);
-});
-
-gulp.task("clean:styles", function () {
-    del(config.distribution.styles);
-});
-
-gulp.task("lint:html", function () {
-    return gulp
-        .src(config.source.html)
-        .pipe($.cached("lint:html"))
-        .pipe($.htmllint(config.htmllint)); // TODO(dungdm93): htmllint dont't call callback when error
-});
-
-gulp.task("compile:html", ["lint:html"], function () {
+gulp.task("compile:markup", gulp.series("lint:markup", () => {
     return gulp
         .src(config.source.html)
 
@@ -83,54 +66,63 @@ gulp.task("compile:html", ["lint:html"], function () {
         .pipe($.plumber())
 
         .pipe(gulp.dest(config.distribution.dir));
-});
+}));
 
-gulp.task("watch:html", ["compile:html"], function () {
-    gulp.watch(config.source.html, ["compile:html"]);
-});
-
-gulp.task("clean:html", function () {
-    del(config.distribution.html);
-});
-
-gulp.task("assets:images", function () {
+gulp.task("assets:images", () => {
     return gulp
         .src(config.source.image)
         .pipe($.imagemin(config.imagemin))
         .pipe(gulp.dest(config.distribution.images));
 })
 
-gulp.task("clean:images", function () {
-    del(config.distribution.images);
-});
-
-gulp.task("assets:fonts", function () {
+gulp.task("assets:fonts", () => {
     return gulp
-        .src(config.source.font)
+        .src(config.source.font, { read: false })
         .pipe(gulp.dest(config.distribution.fonts));
 })
 
-gulp.task("clean:fonts", function () {
-    del(config.distribution.fonts);
+/****************** Clean ******************/
+gulp.task("clean:scripts", () => {
+    return del(config.distribution.scripts);
 });
 
-gulp.task("clean:dist", function () {
-    del(config.distribution.dir);
+gulp.task("clean:styles", () => {
+    return del(config.distribution.styles);
 });
 
-gulp.task("clean:report", function () {
-    del(config.report.dir);
+gulp.task("clean:markup", () => {
+    return del(config.distribution.html);
 });
 
-gulp.task("clean", ["clean:dist", "clean:report"]);
+gulp.task("clean:images", () => {
+    return del(config.distribution.images);
+});
 
-gulp.task("inject", function () {
-    var wiredep = require('wiredep').stream;
+gulp.task("clean:fonts", () => {
+    return del(config.distribution.fonts);
+});
 
-    return gulp
-        .src(config.source.index)
-        .pipe(wiredep(config.wiredep))
-        .pipe($.inject(gulp.src(config.distribution.js)))
-        .pipe($.inject(gulp.src(config.distribution.css)))
-        .pipe(gulp.dest(config.distribution.dir));
-})
+gulp.task("clean:dist", () => {
+    return del(config.distribution.dir);
+});
+
+gulp.task("clean:report", () => {
+    return del(config.report.dir);
+});
+
+gulp.task("clean", gulp.parallel("clean:dist", "clean:report"));
+
+/****************** Build ******************/
+gulp.task("inject", gulp.series(
+    gulp.parallel("compile:scripts", "compile:styles", "compile:markup"),
+    () => {
+        var wiredep = require('wiredep').stream;
+
+        return gulp
+            .src(config.source.index)
+            .pipe(wiredep(config.wiredep))
+            .pipe($.inject(gulp.src(config.distribution.js)))
+            .pipe($.inject(gulp.src(config.distribution.css)))
+            .pipe(gulp.dest(config.distribution.dir));
+    })
+);
