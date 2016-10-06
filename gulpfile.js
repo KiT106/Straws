@@ -174,15 +174,21 @@ inject.description = "Wiring up the js, css and bower dependencies into the html
 function watch() {
     var log = console.log.bind(console);
 
+    var scriptsSoftChange = gulp.series("compile:scripts", refresh);
+    var scriptsHardChange = gulp.series("clean:scripts", "compile:scripts", inject, refresh);
+
+    var stylesSoftChange = gulp.series("compile:styles", refresh);
+    var stylesHardChange = gulp.series("clean:styles", "compile:styles", inject, refresh);
+
     gulp.watch(config.source.ts)
-        .on("add", gulp.series("clean:scripts", "compile:scripts", inject, refresh))
-        .on("change", gulp.series("compile:scripts", refresh))
-        .on("unlink", gulp.series("clean:scripts", "compile:scripts", inject, refresh));
+        .on("add", scriptsHardChange)
+        .on("change", scriptsSoftChange)
+        .on("unlink", scriptsHardChange);
 
     gulp.watch(config.source.css)
-        .on("add", gulp.series("clean:styles", "compile:styles", inject, refresh))
-        .on("change", gulp.series("compile:styles", refresh))
-        .on("unlink", gulp.series("clean:styles", "compile:styles", inject, refresh))
+        .on("add", stylesHardChange)
+        .on("change", stylesSoftChange)
+        .on("unlink", stylesHardChange);
 
     gulp.watch([config.source.html, not(config.source.index)])
         .on("all", gulp.series("compile:markup"));              // htmlInjector auto refresh
