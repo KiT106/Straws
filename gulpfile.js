@@ -2,6 +2,7 @@ var del = require("del");
 var gulp = require("gulp");
 var args = require("yargs").argv;
 var config = require("./gulp.config");
+var browserSync = require('browser-sync').create();
 var $ = require("gulp-load-plugins")({ lazy: true });
 
 /****************** Lint ******************/
@@ -123,8 +124,14 @@ gulp.task("build", gulp.series(
     gulp.parallel("inject", "assets:images", "assets:fonts"))
 );
 
+gulp.task("browser-sync", (done) => {
+    browserSync.init(config.browserSync);
+    done();
+});
+
 gulp.task("serve", gulp.series(
     "build",
+    "browser-sync",
     watch)
 );
 
@@ -149,12 +156,12 @@ gulp.task("bump", function () {
 
 function inject() {
     var wiredep = require("wiredep").stream;
+    var injectSrc = gulp.src([config.distribution.js, config.distribution.css]);
 
     return gulp
-        .src(config.source.index)
+        .src(config.distribution.index)
         .pipe(wiredep(config.wiredep))
-        .pipe($.inject(gulp.src(config.distribution.js)))
-        .pipe($.inject(gulp.src(config.distribution.css)))
+        .pipe($.inject(injectSrc, config.inject))
         .pipe(gulp.dest(config.distribution.dir));
 };
 inject.description = "Wiring up the js, css and bower dependencies into the html";
@@ -163,22 +170,30 @@ function watch() {
     var log = console.log.bind(console);
 
     gulp.watch(config.source.ts)
-        .on("add", gulp.series("clean:scripts", "compile:scripts", inject))
-        .on("change", gulp.series("compile:scripts"))
-        .on("unlink", gulp.series("clean:scripts", "compile:scripts", inject));
+        .on("add", gulp.series("clean:scripts", "compile:scripts", inject, refresh))
+        .on("change", gulp.series("compile:scripts", refresh))
+        .on("unlink", gulp.series("clean:scripts", "compile:scripts", inject, refresh));
 
     gulp.watch(config.source.css)
-        .on("add", gulp.series("clean:styles", "compile:styles", inject))
-        .on("change", gulp.series("compile:styles"))
-        .on("unlink", gulp.series("clean:styles", "compile:styles", inject));
+        .on("add", gulp.series("clean:styles", "compile:styles", inject, refresh))
+        .on("change", gulp.series("compile:styles", refresh))
+        .on("unlink", gulp.series("clean:styles", "compile:styles", inject, refresh))
 
     gulp.watch([config.source.html, not(config.source.index)])
-        .on("all", gulp.series("compile:markup"));
+        .on("all", gulp.series("compile:markup", refresh));
 
     gulp.watch(config.source.index)
-        .on("change", gulp.series("compile:markup", inject));
+        .on("change", gulp.series("compile:markup", inject, refresh));
 }
 watch.description = "watches the files, builds, and restarts browser-sync";
+
+function refresh() {
+    var log = console.log.bind(console);
+
+    log("browserSync reloading...");
+    browserSync.reload();
+}
+refresh.description = "reload browserSync";
 
 // Negative the pattern
 function not(globs) {

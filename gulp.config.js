@@ -109,6 +109,22 @@ var config = {
                 ]
             }
         }
+    },
+
+    // See https://www.npmjs.com/package/gulp-inject#api
+    inject: {
+        relative: true
+    },
+
+    // See https://www.browsersync.io/docs/options
+    browserSync: {
+        server: {
+            baseDir: "dist",
+            routes: {
+                "/bower_components": "bower_components",
+                "/dist": "dist"
+            }
+        }
     }
 }
 module.exports = config;
