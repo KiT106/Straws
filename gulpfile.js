@@ -5,6 +5,8 @@ var config = require("./gulp.config");
 var browserSync = require('browser-sync').create();
 var $ = require("gulp-load-plugins")({ lazy: true });
 
+var htmlInjector = require("bs-html-injector");
+
 /****************** Lint ******************/
 gulp.task("lint:scripts", () => {
     return gulp
@@ -125,6 +127,9 @@ gulp.task("build", gulp.series(
 );
 
 gulp.task("browser-sync", (done) => {
+    browserSync.use(htmlInjector, {
+        files: config.distribution.html
+    });
     browserSync.init(config.browserSync);
     done();
 });
@@ -180,10 +185,10 @@ function watch() {
         .on("unlink", gulp.series("clean:styles", "compile:styles", inject, refresh))
 
     gulp.watch([config.source.html, not(config.source.index)])
-        .on("all", gulp.series("compile:markup", refresh));
+        .on("all", gulp.series("compile:markup"));              // htmlInjector auto refresh
 
     gulp.watch(config.source.index)
-        .on("change", gulp.series("compile:markup", inject, refresh));
+        .on("change", gulp.series("compile:markup", inject));   // htmlInjector auto refresh
 }
 watch.description = "watches the files, builds, and restarts browser-sync";
 
