@@ -60,7 +60,7 @@ gulp.task("compile:styles", gulp.series(() => {
         .pipe($.plumber())
 
         // .pipe($.sourcemaps.init(config.sourcemaps.init))
-        .pipe($.sass())
+        .pipe($.less())
         .pipe($.autoprefixer())
         .pipe($.concat('all.css'))
         .pipe($.cleanCss())

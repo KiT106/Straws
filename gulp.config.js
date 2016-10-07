@@ -8,7 +8,7 @@ var config = {
     source: {
         dir: source,
         ts: `${source}/**/*.ts`,
-        css: `${source}/**/*.scss`,  // sass auto ignore _partial.scss when compile outputs
+        css: `${source}/**/*.less`,  // sass auto ignore _partial.scss when compile outputs
 
         // this work too, sass include _partial.scss while compile
         // however it don't fire change event while gulp.watch
