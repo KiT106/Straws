@@ -59,11 +59,12 @@ gulp.task("compile:styles", gulp.series(() => {
         .pipe($.if(args.verbose, $.print()))
         .pipe($.plumber())
 
-        .pipe($.sourcemaps.init(config.sourcemaps.init))
+        // .pipe($.sourcemaps.init(config.sourcemaps.init))
         .pipe($.sass())
         .pipe($.autoprefixer())
         .pipe($.concat('all.css'))
-        .pipe($.sourcemaps.write(".", config.sourcemaps.write))
+        .pipe($.cleanCss())
+        // .pipe($.sourcemaps.write(".", config.sourcemaps.write))
         .pipe(gulp.dest(config.distribution.dir))
 
         .pipe($.cached("sync:styles")) // only sync changed files
