@@ -62,8 +62,8 @@ gulp.task("compile:styles", gulp.series(() => {
         // .pipe($.sourcemaps.init(config.sourcemaps.init))
         .pipe($.less())
         .pipe($.autoprefixer())
-        .pipe($.concat('all.css'))
-        .pipe($.cleanCss())
+        // .pipe($.concat('all.css'))
+        // .pipe($.cleanCss())
         // .pipe($.sourcemaps.write(".", config.sourcemaps.write))
         .pipe(gulp.dest(config.distribution.dir))
 
@@ -196,11 +196,11 @@ function watch() {
         .on("change", scriptsSoftChange)
         .on("unlink", scriptsHardChange);
 
-    gulp.watch(config.source.css, stylesSoftChange);
+    gulp.watch(config.source.css)
         // comment bellow lines when concat scripts
-        // .on("add", stylesHardChange)
-        // .on("change", stylesSoftChange)
-        // .on("unlink", stylesHardChange);
+        .on("add", stylesHardChange)
+        .on("change", stylesSoftChange)
+        .on("unlink", stylesHardChange);
 
     gulp.watch([config.source.html, not(config.source.index)])
         .on("all", gulp.series("compile:markup"));              // htmlInjector auto refresh
