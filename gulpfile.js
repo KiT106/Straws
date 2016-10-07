@@ -43,7 +43,10 @@ gulp.task("compile:scripts", gulp.series("lint:scripts", () => {
         .pipe($.sourcemaps.init(config.sourcemaps.init))
         .pipe(project())
         .pipe($.sourcemaps.write(".", config.sourcemaps.write))
-        .pipe(gulp.dest(config.distribution.dir));
+        .pipe(gulp.dest(config.distribution.dir))
+
+        .pipe($.cached("sync:scripts"))
+        .pipe(browserSync.stream({ match: '**/*.js' }));
 }));
 
 gulp.task("compile:styles", gulp.series("lint:styles", () => {
@@ -57,7 +60,10 @@ gulp.task("compile:styles", gulp.series("lint:styles", () => {
         .pipe($.sourcemaps.init(config.sourcemaps.init))
         .pipe($.autoprefixer())
         .pipe($.sourcemaps.write(".", config.sourcemaps.write))
-        .pipe(gulp.dest(config.distribution.dir));
+        .pipe(gulp.dest(config.distribution.dir))
+
+        .pipe($.cached("sync:styles"))
+        .pipe(browserSync.stream({ match: '**/*.css' }));
 }));
 
 gulp.task("compile:markup", gulp.series("lint:markup", () => {
@@ -174,11 +180,11 @@ inject.description = "Wiring up the js, css and bower dependencies into the html
 function watch() {
     var log = console.log.bind(console);
 
-    var scriptsSoftChange = gulp.series("compile:scripts", refresh);
-    var scriptsHardChange = gulp.series("clean:scripts", "compile:scripts", inject, refresh);
+    var scriptsSoftChange = gulp.series("compile:scripts");
+    var scriptsHardChange = gulp.series("clean:scripts", "compile:scripts", inject);
 
-    var stylesSoftChange = gulp.series("compile:styles", refresh);
-    var stylesHardChange = gulp.series("clean:styles", "compile:styles", inject, refresh);
+    var stylesSoftChange = gulp.series("compile:styles");
+    var stylesHardChange = gulp.series("clean:styles", "compile:styles", inject);
 
     gulp.watch(config.source.ts)
         .on("add", scriptsHardChange)
