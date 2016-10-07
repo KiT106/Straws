@@ -55,12 +55,14 @@ gulp.task("compile:styles", gulp.series(() => {
 
         // .pipe($.cached("compile:styles")) // enable: don't compile when partial change.
         // disable above to perform full compile :(
+        // furthermore, partial compile can't use with concat
         .pipe($.if(args.verbose, $.print()))
         .pipe($.plumber())
 
         .pipe($.sourcemaps.init(config.sourcemaps.init))
         .pipe($.sass())
         .pipe($.autoprefixer())
+        .pipe($.concat('all.css'))
         .pipe($.sourcemaps.write(".", config.sourcemaps.write))
         .pipe(gulp.dest(config.distribution.dir))
 
@@ -193,10 +195,11 @@ function watch() {
         .on("change", scriptsSoftChange)
         .on("unlink", scriptsHardChange);
 
-    gulp.watch(config.source.css)
-        .on("add", stylesHardChange)
-        .on("change", stylesSoftChange)
-        .on("unlink", stylesHardChange);
+    gulp.watch(config.source.css, stylesSoftChange);
+        // comment bellow lines when concat scripts
+        // .on("add", stylesHardChange)
+        // .on("change", stylesSoftChange)
+        // .on("unlink", stylesHardChange);
 
     gulp.watch([config.source.html, not(config.source.index)])
         .on("all", gulp.series("compile:markup"));              // htmlInjector auto refresh
