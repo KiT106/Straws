@@ -53,7 +53,8 @@ gulp.task("compile:styles", gulp.series(() => {
     return gulp
         .src(config.source.css)
 
-        .pipe($.cached("compile:styles"))
+        // .pipe($.cached("compile:styles")) // enable: don't compile when partial change.
+        // disable above to perform full compile :(
         .pipe($.if(args.verbose, $.print()))
         .pipe($.plumber())
 
@@ -63,7 +64,7 @@ gulp.task("compile:styles", gulp.series(() => {
         .pipe($.sourcemaps.write(".", config.sourcemaps.write))
         .pipe(gulp.dest(config.distribution.dir))
 
-        // .pipe($.cached("sync:styles"))
+        .pipe($.cached("sync:styles")) // only sync changed files
         .pipe(browserSync.stream({ match: '**/*.css' }));
 }));
 

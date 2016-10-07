@@ -9,7 +9,10 @@ var config = {
         dir: source,
         ts: `${source}/**/*.ts`,
         css: `${source}/**/*.scss`,  // sass auto ignore _partial.scss when compile outputs
-        // css: [`${source}/**/*.scss`, `!${source}/**/_*.scss`],  // this work too, sass include _partial.scss while compile
+
+        // this work too, sass include _partial.scss while compile
+        // however it don't fire change event while gulp.watch
+        // css: [`${source}/**/*.scss`, `!${source}/**/_*.scss`],
         html: `${source}/**/*.html`,
         index: `${source}/index.html`,
         font: `${source}/assets/fonts/**`,
