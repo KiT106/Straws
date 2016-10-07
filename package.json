@@ -31,6 +31,7 @@
     "gulp-plumber": "^1.1.0",
     "gulp-print": "^2.0.0",
     "gulp-prompt": "^0.2.0",
+    "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-stylelint": "^3.3.0",
     "gulp-tslint": "^6.1.0",

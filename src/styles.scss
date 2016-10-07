@@ -1,6 +1,9 @@
+@import 'partial';
+
 * {
   font-family: "Segoe UI", Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
+  color: blueviolet;
 }
 
 :fullscreen a {
@@ -16,18 +19,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-body .container {
-  width: 97%;
-  padding-left: 1.5%;
-  padding-right: 1.5%;
-}
-
 form * {
   font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-}
-
-input,
-select {
-  padding: 4px !important;
-  display: inline-block !important;
 }

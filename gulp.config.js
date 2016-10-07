@@ -8,7 +8,8 @@ var config = {
     source: {
         dir: source,
         ts: `${source}/**/*.ts`,
-        css: `${source}/**/*.css`,
+        css: `${source}/**/*.scss`,  // sass auto ignore _partial.scss when compile outputs
+        // css: [`${source}/**/*.scss`, `!${source}/**/_*.scss`],  // this work too, sass include _partial.scss while compile
         html: `${source}/**/*.html`,
         index: `${source}/index.html`,
         font: `${source}/assets/fonts/**`,

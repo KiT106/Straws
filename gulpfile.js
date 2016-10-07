@@ -49,7 +49,7 @@ gulp.task("compile:scripts", gulp.series("lint:scripts", () => {
         .pipe(browserSync.stream({ match: '**/*.js' }));
 }));
 
-gulp.task("compile:styles", gulp.series("lint:styles", () => {
+gulp.task("compile:styles", gulp.series(() => {
     return gulp
         .src(config.source.css)
 
@@ -58,11 +58,12 @@ gulp.task("compile:styles", gulp.series("lint:styles", () => {
         .pipe($.plumber())
 
         .pipe($.sourcemaps.init(config.sourcemaps.init))
+        .pipe($.sass())
         .pipe($.autoprefixer())
         .pipe($.sourcemaps.write(".", config.sourcemaps.write))
         .pipe(gulp.dest(config.distribution.dir))
 
-        .pipe($.cached("sync:styles"))
+        // .pipe($.cached("sync:styles"))
         .pipe(browserSync.stream({ match: '**/*.css' }));
 }));
 
