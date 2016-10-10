@@ -70,7 +70,8 @@ var config = {
 
         // Options in sourcemaps.init() statement. https://github.com/floridoo/gulp-sourcemaps#write-options
         write: {
-            includeContent: false
+            includeContent: false,
+            sourceRoot: '../src'
         }
     },
 
@@ -122,7 +123,7 @@ var config = {
             baseDir: "dist",
             routes: {
                 "/bower_components": "bower_components",
-                "/dist": "dist"
+                "/src": "src"
             }
         }
     }

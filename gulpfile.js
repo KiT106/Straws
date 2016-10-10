@@ -36,7 +36,6 @@ gulp.task("compile:scripts", gulp.series("lint:scripts", () => {
     return project
         .src(config.source.ts) // TODO(dungdm93): still load *.ts file not in src folder
 
-        // .pipe($.cached("compile:scripts")) // TODO(dungdm93): recompile - symbol not found
         .pipe($.if(args.verbose, $.print()))
         .pipe($.plumber())
 
@@ -46,19 +45,21 @@ gulp.task("compile:scripts", gulp.series("lint:scripts", () => {
         .pipe(gulp.dest(config.distribution.dir))
 
         .pipe($.cached("sync:scripts"))
-        .pipe(browserSync.stream({ match: '**/*.js' }));
+        .pipe(browserSync.stream({ match: '**/*.js' }));  // TODO(dungdm93): scripts allways perform full page reload
 }));
 
 gulp.task("compile:styles", gulp.series("lint:styles", () => {
+    var autoprefixer = require('autoprefixer');
+    var plugins = [autoprefixer(config.autoprefixer)];
+
     return gulp
         .src(config.source.css)
 
-        .pipe($.cached("compile:styles"))
         .pipe($.if(args.verbose, $.print()))
         .pipe($.plumber())
 
         .pipe($.sourcemaps.init(config.sourcemaps.init))
-        .pipe($.autoprefixer())
+        .pipe($.postcss(plugins))
         .pipe($.sourcemaps.write(".", config.sourcemaps.write))
         .pipe(gulp.dest(config.distribution.dir))
 
@@ -181,10 +182,10 @@ function watch() {
     var log = console.log.bind(console);
 
     var scriptsSoftChange = gulp.series("compile:scripts");
-    var scriptsHardChange = gulp.series("clean:scripts", "compile:scripts", inject);
+    var scriptsHardChange = gulp.series("clean:scripts", "compile:scripts", inject, refresh);
 
     var stylesSoftChange = gulp.series("compile:styles");
-    var stylesHardChange = gulp.series("clean:styles", "compile:styles", inject);
+    var stylesHardChange = gulp.series("clean:styles", "compile:styles", inject, refresh);
 
     gulp.watch(config.source.ts)
         .on("add", scriptsHardChange)
