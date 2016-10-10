@@ -46,7 +46,7 @@ gulp.task("compile:scripts", gulp.series("lint:scripts", () => {
         .pipe(gulp.dest(config.distribution.dir))
 
         .pipe($.cached("sync:scripts"))
-        .pipe(browserSync.stream({ match: '**/*.js' }));
+        .pipe(browserSync.stream({ match: '**/*.js' }));  // TODO(dungdm93): scripts allways perform full page reload
 }));
 
 gulp.task("compile:styles", gulp.series("lint:styles", () => {
@@ -181,10 +181,10 @@ function watch() {
     var log = console.log.bind(console);
 
     var scriptsSoftChange = gulp.series("compile:scripts");
-    var scriptsHardChange = gulp.series("clean:scripts", "compile:scripts", inject);
+    var scriptsHardChange = gulp.series("clean:scripts", "compile:scripts", inject, refresh);
 
     var stylesSoftChange = gulp.series("compile:styles");
-    var stylesHardChange = gulp.series("clean:styles", "compile:styles", inject);
+    var stylesHardChange = gulp.series("clean:styles", "compile:styles", inject, refresh);
 
     gulp.watch(config.source.ts)
         .on("add", scriptsHardChange)

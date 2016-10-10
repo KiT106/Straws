@@ -122,7 +122,7 @@ var config = {
             baseDir: "dist",
             routes: {
                 "/bower_components": "bower_components",
-                "/dist": "dist"
+                "/src": "src"
             }
         }
     }
