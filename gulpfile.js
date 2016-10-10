@@ -58,8 +58,9 @@ gulp.task("compile:styles", gulp.series("lint:styles", () => {
         .pipe($.plumber())
 
         .pipe($.sourcemaps.init(config.sourcemaps.init))
-        .pipe($.autoprefixer())
-        .pipe($.sourcemaps.write(".", config.sourcemaps.write))
+        // .pipe($.autoprefixer())
+        .pipe($.concat("styles/all.css"))
+        .pipe($.sourcemaps.write(".", {includeContent: false, sourceRoot: '../src'}))
         .pipe(gulp.dest(config.distribution.dir))
 
         .pipe($.cached("sync:styles"))
