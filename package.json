@@ -1,14 +1,15 @@
 {
-  "name": "bracket",
+  "name": "straws",
   "version": "1.0.0",
-  "description": "Bracket in Angular",
+  "description": "Straws of Gulp",
   "main": "src/server.js",
   "scripts": {
     "setup": "npm install && bower install && typings install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "bracket",
+    "straws",
+    "gulp",
     "angular"
   ],
   "author": "Đặng Minh Dũng <dungdm93@live.com>",

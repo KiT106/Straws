@@ -1,6 +1,6 @@
-Bracket
+Straws
 =======
-> Bracket in Angular
+> Straws of Gulp
 
 ## Setup
 * Environment

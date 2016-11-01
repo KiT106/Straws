@@ -1,12 +1,13 @@
 {
-  "name": "bracket",
-  "description": "Bracket in Angular",
+  "name": "straws",
+  "description": "Straws of Gulp",
   "authors": [
     "Đặng Minh Dũng <dungdm93@live.com>"
   ],
   "license": "MIT",
   "keywords": [
-    "bracket",
+    "straws",
+    "gulp",
     "angular"
   ],
   "ignore": [
