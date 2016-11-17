@@ -1,6 +1,8 @@
 {
   "name": "straws",
-  "dependencies": {},
+  "dependencies": {
+    "typedjson-npm": "npm:typedjson-npm"
+  },
   "globalDependencies": {
     "angular": "registry:dt/angular#1.5.0+20160922195358",
     "angular-route": "registry:dt/angular-route#1.3.0+20160317120654",
